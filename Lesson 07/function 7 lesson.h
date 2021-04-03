@@ -3,6 +3,8 @@
 
 #include<stdio.h>
 
+//7-1
+
 typedef char brace;
 
 typedef struct Node{
@@ -98,6 +100,7 @@ char get_the_brace_left_pair(char brace)
 void braces_succession_checker()
 {
     int good_braces_succession = 1;
+    printf("%s", "Enter function with braces: \n");
     stack open_braces = stack_create();
     char brace = getchar();
     while (brace != '\n')
@@ -136,9 +139,9 @@ void braces_succession_checker()
                 }
 }
 
-void print_list(node *p_begin)
+void print_list(node *begin)
 {
-    node *p = p_begin;
+    node *p = begin;
     while (p != NULL)
         {
             printf("%c \t", p->value);
@@ -149,6 +152,143 @@ void print_list(node *p_begin)
 void stack_print(const stack *s)
 {
     print_list(s->begin);
+}
+
+//7-2
+
+typedef struct NodeList
+{
+    int dat;
+    struct NodeList *next;
+} NodeLst;
+
+typedef struct
+{
+    NodeLst *head;
+    int size;
+} List;
+
+void init(List* lst)
+{
+    lst->head = NULL;
+    lst->size = 0;
+}
+
+void ins(List *lst, int data)
+{
+    NodeLst *new = (NodeLst*) malloc(sizeof(NodeLst));
+    new->dat = data;
+    new->next = NULL;
+
+    NodeLst *current = lst->head;
+    if(current==NULL)
+    {
+        lst->head = new;
+        lst->size++;
+    }
+    else
+    {
+        while (current->next != NULL)
+        {
+            current = current->next;
+        }
+        current->next = new;
+        lst->size++;
+
+    }
+}
+
+NodeLst* rm(List *lst, int data)
+{
+    NodeLst *current = lst->head;
+    NodeLst *parent = NULL;
+    if (current == NULL)
+        return NULL;
+    while(current->next != NULL && current->dat != data)
+    {
+        parent = current;
+        current = current->next;
+    }
+    if (current->dat != data)
+    {
+        return NULL;
+    }
+    if (current == lst->head)
+    {
+        lst->head = current->next;
+        lst->size--;
+        return current;
+    }
+    parent->next = current->next;
+    lst->size--;
+    return current;
+}
+
+void copyList (List *from, List *to)
+{
+    NodeLst *current = from->head;
+    to->head = current;
+    to->size = from->size;
+}
+
+void printNode(NodeLst* n)
+{
+    if (n == NULL)
+    {
+        printf("[ ]");
+        return;
+    }
+    printf("[%d] ", n->dat);
+}
+
+void printList(List *lst)
+{
+    NodeLst *current = lst->head;
+    if (current == NULL)
+    {
+        printNode(current);
+    }
+    else
+    {
+        do{
+            printNode(current);
+            current = current->next;
+        } while (current != NULL);
+    }
+    printf("Size: %d \n", lst->size);
+}
+
+//7-3
+
+#define true 1 == 1
+#define false 1 != 1
+typedef int boolean;
+
+boolean lstSorted(List *lst)
+{
+    NodeLst *current = lst->head;
+    int a=1;
+    int b=1;
+    while (current->next != NULL)
+    {
+        if(current->dat > current->next->dat)
+            {
+                ++a;
+            }
+        if(current->dat < current->next->dat)
+            {
+                ++b;
+            }
+        current=current->next;
+    }
+    if ((a == lst->size) || (b ==  lst->size))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 #endif // FUNCTION_7_LESSON_H_INCLUDED
