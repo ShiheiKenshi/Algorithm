@@ -125,14 +125,14 @@ void resetArray(int *array)
     }
 }
 
-/*  1  2  3  4  5  6  7
-   {0, 1, 1, 0, 0, 0, 0} 1
-   {1, 0, 1, 1, 0, 0, 0} 2
-   {1, 1, 0, 1, 1, 0, 0} 3
-   {0, 1, 1, 0, 0, 0, 0} 4
-   {0, 0, 1, 0, 0, 0, 0} 5
-   {0, 0, 0, 0, 0, 0, 1} 6
-   {0, 0, 0, 0, 0, 1, 0} 7 */
+/*  0  1  2  3  4  5  6
+   {0, 1, 1, 0, 0, 0, 0} 0
+   {1, 0, 1, 1, 0, 0, 0} 1
+   {1, 1, 0, 1, 1, 0, 0} 2
+   {0, 1, 1, 0, 0, 0, 0} 3
+   {0, 0, 1, 0, 0, 0, 0} 4
+   {0, 0, 0, 0, 0, 0, 1} 5
+   {0, 0, 0, 0, 0, 1, 0} 6 */
 
 int** createGraph ()
 {
@@ -211,6 +211,7 @@ int count[gSZ] = {0};
 
 void traversalCount(int** matrix, int start, const int size)
 {
+    printf("Start node: %d \n", start);
     for (int s = 0; s < gSZ; ++s)
     {
         if (matrix[start][s] == 1 && start != s)
@@ -224,14 +225,11 @@ void traversalCount(int** matrix, int start, const int size)
         if (matrix[start][v] == 1 && count != 1)
         {
             count[v] = 1;
-            for (int i = 0; i < size; ++i)
-            {
                 for (int j = 0; j < size; ++j)
                     {
-                        if (matrix[j][i] == 1 && i != j)
-                            link[i]++;
+                        if (matrix[j][v] == 1 && v != j)
+                            link[v]++;
                     }
-            }
             printf("For %d adjacency link = %d \n", v, link[v]);
         }
     }
