@@ -44,16 +44,4 @@ int* exchange (int* money, int size, int sum)
     return *coins;
 }
 
-void printIntArray(int* array, int size, int offset) {
-    char format[7];
-    sprintf(format, "%%%dd", offset);
-    for (int i = 0; i < size; ++i) {
-        printf(format, array[i]);
-        if (i != size - 1)
-            printf(",");
-    }
-    printf("\n");
-}
-
-
 #endif // LESSON_10_H_INCLUDED
