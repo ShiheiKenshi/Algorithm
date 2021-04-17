@@ -28,6 +28,11 @@ char* caesar(char* in, int key, boolean encrypt)
 {
     printf("String %s ", in);
     int len = strlen(in);
+    if (in == NULL || len == 0)
+    {
+        printf ("is empty. \n \n");
+        return NULL;
+    }
     if (encrypt == true)
     {
         encryption(in, key, len);
@@ -41,105 +46,40 @@ char* caesar(char* in, int key, boolean encrypt)
     return *in;
 }
 
-char* encryptionShuffle (char * in, int key, int len)
-{
-    char arr[7][key];
-    int k = 0;
-    while (k < len)
-    {
-        for(int i = 0, k = 0; i < len; ++i)
-        {
-            for(int j = 0; j < key; ++j)
-            {
-                arr[i][j] = in[k++];
-            }
-        }
-    };
-
-    char tmpOne [7][key];
-    for (int i = 0; i < 7; ++i)
-    {
-
-        for (int j = 0; j < len/2; ++j)
-        {
-            tmpOne[i][j] = arr [i][j];
-            arr[i][j] = arr[i][len-1-j];
-        }
-        for(int j = len - 1; j > len/2; --j)
-        {
-            arr[i][j] = tmpOne[i][len - 1 - j];
-        }
-    }
-    k = 0;
-    while (k < len)
-    {
-        for(int i = 0, k = 0; i < len; ++i)
-        {
-            for(int j = 0; j < key; ++j)
-            {
-                in[k++] = arr[i][j];
-            }
-        }
-    };
-}
-
-char* decryptionShuffle (char * in, int key, int len)
-{
-    char arr[7][key];
-    int k = 0;
-    while (k < len)
-    {
-        for(int i = 0, k = 0; i < len; ++i)
-        {
-            for(int j = 0; j < key; ++j)
-            {
-                arr[i][j] = in[k++];
-            }
-        }
-    };
-
-    char tmpOne [7][key];
-    for (int i = 0; i < 7; ++i)
-    {
-
-        for (int j = 0; j < len/2; ++j)
-        {
-            tmpOne[i][j] = arr [i][j];
-            arr[i][j] = arr[i][len-1-j];
-        }
-        for(int j = len - 1; j > len/2; --j)
-        {
-            arr[i][j] = tmpOne[i][len - 1 - j];
-        }
-    }
-    k = 0;
-    while (k < len)
-    {
-        for(int i = 0, k = 0; i < len; ++i)
-        {
-            for(int j = 0; j < key; ++j)
-            {
-                in[k++] = arr[i][j];
-            }
-        }
-    };
-}
-
 char* shuffle(char* in, int key, boolean encrypt)
 {
     printf("String %s ", in);
     int len = strlen(in);
-    if (encrypt == true)
+    if (in == NULL || len == 0)
     {
-        encryptionShuffle(in, key, len);
+        return NULL;
     }
-    else
+    int strng = ceil((float)len/(float)key);
+    int length = key * strng;
+    char * out = (char*)calloc (length+1, sizeof(char));
+    if (encrypt == false)
     {
-        decryptionShuffle(in, key, len);
-    };
+        key = strng;
+    }
+    int k = 0;
+    for (int i = 0; i < key; ++i)
+    {
+        for (int j = i; j < length; j+=key)
+        {
+            if (j < len)
+            {
+                out[k] = in[j];
+            }
+            else
+            {
+                out[k] = ' ';
+            }
+            k++;
+        }
+    }
     printf("after %s became %s\n \n",
-           (encrypt == true) ? "encryption" : "decryption" ,in);
-    return *in;
+           (encrypt == true) ? "encryption" : "decryption" , out);
+    return out;
 }
 
 #endif // LESSON_11_H_INCLUDED
